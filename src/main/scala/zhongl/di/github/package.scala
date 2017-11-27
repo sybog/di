@@ -5,9 +5,9 @@ import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.server.Directives._
 import akka.pattern.ask
 import akka.stream.ActorMaterializer
-import spray.json.JsValue
-import zhongl.di.github.AppActor.{ Ack, Event }
 import akka.util.Timeout
+import spray.json.JsValue
+import zhongl.di.github.AppActor.{Ack, Event}
 
 import scala.concurrent.duration._
 

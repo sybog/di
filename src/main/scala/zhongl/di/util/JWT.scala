@@ -4,7 +4,7 @@ import java.security.interfaces.RSAPrivateKey
 import java.util.Date
 
 import com.auth0.jwt.algorithms.Algorithm
-import com.auth0.jwt.{ JWT => Auth0 }
+import com.auth0.jwt.{JWT => Auth0}
 
 import scala.concurrent.duration.Duration
 
