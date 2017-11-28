@@ -6,7 +6,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.pattern.ask
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
-import spray.json.JsValue
+import spray.json.{DefaultJsonProtocol, JsValue}
 import zhongl.di.github.AppActor.{Ack, Event}
 
 import scala.concurrent.duration._
@@ -28,4 +28,34 @@ package object github extends SprayJsonSupport {
     }
 
   }
+
+  private[github] trait JsonProtocol extends DefaultJsonProtocol {
+
+    implicit val repository = jsonFormat1(Model.Repository)
+
+    implicit val head = jsonFormat2(Model.Commit)
+
+    implicit val pullRequest = jsonFormat4(Model.PullRequest)
+
+    implicit val installation = jsonFormat2(Model.Installation)
+
+    implicit val payload = jsonFormat3(Model.Payload)
+
+    implicit val jsValueToPayload: JsValue => Model.Payload = _.convertTo[Model.Payload]
+  }
+
+  private[github] object Model {
+
+    final case class Repository(`ssh_url`: String)
+
+    final case class Commit(sha: String, repo: Repository)
+
+    final case class PullRequest(head: Commit, base: Commit, merged: Boolean, `merge_commit_sha`: Option[String])
+
+    final case class Installation(id: Int, `access_tokens_url`: Option[String])
+
+    final case class Payload(action: String, installation: Option[Installation], `pull_request`: Option[PullRequest])
+
+  }
+
 }
