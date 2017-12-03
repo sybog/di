@@ -7,14 +7,12 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter
 import org.bouncycastle.openssl.{PEMKeyPair, PEMParser}
 
-import scala.util.Try
-
 object PEMFile {
   def apply(path: String) = new PEMFile(path)
 }
 
 class PEMFile private(path: String) {
-  def asRSAPrivateKey: Try[RSAPrivateKey] = Try {
+  def asRSAPrivateKey: RSAPrivateKey = {
     using(new PEMParser(new FileReader(path))) { r =>
       new JcaPEMKeyConverter()
         .setProvider(new BouncyCastleProvider())

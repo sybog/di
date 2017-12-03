@@ -5,7 +5,7 @@
 # Running
 
 ```bash
-sbt run
+sbt "run <GitHub APP ID> <Private Key Path>"
 ```
 
 # Testing

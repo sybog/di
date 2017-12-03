@@ -1,19 +1,20 @@
-package zhongl.di.github
+package zhongl.di
 
 import akka.http.scaladsl.model.MediaTypes.`application/json`
 import akka.http.scaladsl.model.headers.RawHeader
 import akka.http.scaladsl.model.{HttpEntity, StatusCodes}
 import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.testkit.ScalatestRouteTest
+import akka.http.scaladsl.util.FastFuture
 import org.scalatest.{Matchers, WordSpec}
 
-class GithubRoutesSpec extends WordSpec with Matchers with ScalatestRouteTest with Directives {
+import scala.util.Success
 
-  val route = webhook { (event, json) =>
-    complete(event)
-  }
+class WebServerRouteSpec extends WordSpec with Matchers with ScalatestRouteTest with Directives {
 
-  "webhook" should {
+  val route = WebServer.route((_, _) => FastFuture.apply(Success("")))
+
+  "Webhook" should {
 
     "leave requests without X-GitHub-Event header unhandled" in {
       Post("/webhook") ~> route ~> check {
